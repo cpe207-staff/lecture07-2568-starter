@@ -575,3 +575,43 @@ const renderTodoItem = (title, completed) => {
 ```
 
 The final step is to call the `loadData();` function.
+
+### Step 8: Code refactoring
+
+Since the `renderTodoItem()` is very similar to the code inside `inputText.onkeyup`, we can refactor the latter fucntion as followed:
+
+```javascript
+inputText.onkeyup = (event) => {
+  if (event.key !== "Enter") return;
+
+  // render a todoItem in HTML
+  renderTodoItem(inputText.value, false);
+
+  // reset input
+  inputText.value = "";
+
+  // Save data
+  saveData();
+};
+```
+
+However the `delete` functionality is not working anymore. We need to go back to the `renderTodoItem()` and modify a bit.
+
+```javascript
+const renderTodoItem = (title, completed) => {
+  ...
+
+  doneBtn.onclick = () => {
+    // strike "todo item"
+    if (completed === "true" || todoText.style.textDecoration === "")
+      todoText.style.textDecoration = "line-through";
+    else todoText.style.textDecoration = "";
+
+    // update save data
+    saveData();
+  };
+
+  ...
+};
+
+```
